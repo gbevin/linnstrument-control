@@ -14,30 +14,18 @@
 
 #include "LinnStrumentSerial.h"
 
-class LinnStrumentSerialMac : public LinnStrumentSerial,
-                              public Timer
-{
+class LinnStrumentSerialMac : public LinnStrumentSerial{
 public:
     LinnStrumentSerialMac();
     virtual ~LinnStrumentSerialMac();
     
-    void timerCallback() override;
-    
     String getFullLinnStrumentDevice() override;
-    bool findFirmwareFile() override;
-    bool hasFirmwareFile() override;
     bool detect() override;
     bool isDetected() override;
-    bool prepareDevice() override;
-    bool performUpgrade() override;
     
 private:
     String firmwareFile;
     String linnstrumentDevice;
-    ChildProcess upgradeChild;
-    String upgradeOutput;
-    bool upgradeVerificationPhase;
-    bool upgradeSuccessful;
 };
 
 #endif  // LINNSTRUMENTSERIALMAC_H_INCLUDED

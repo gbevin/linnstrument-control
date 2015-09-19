@@ -43,14 +43,8 @@ public:
     
     LinnStrumentSerial &getLinnStrumentSerial();
     
-    void findFirmware();
-    void connectionWarning();
     void detectLinnStrument();
-    void upgradeLinnStrument();
-    void restoreSettings();
     
-    void setUpgradeDone();
-    void setUpgradeFailed();
     void setProgressText(const String& text);
 
 private:

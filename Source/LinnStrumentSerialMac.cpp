@@ -26,7 +26,10 @@
 #include <IOKit/serial/ioss.h>
 #include <errno.h>
 
-LinnStrumentSerialMac::LinnStrumentSerialMac() : upgradeVerificationPhase(false), upgradeSuccessful(false)
+static const long VENDOR_ID = 0xf055;
+static const long PRODUCT_ID = 0x0070;
+
+LinnStrumentSerialMac::LinnStrumentSerialMac()
 {
 }
 
@@ -39,25 +42,6 @@ String LinnStrumentSerialMac::getFullLinnStrumentDevice()
     if (!isDetected()) return String::empty;
     
     return "/dev/"+linnstrumentDevice;
-}
-
-bool LinnStrumentSerialMac::findFirmwareFile()
-{
-    File current_app = File::getSpecialLocation(File::SpecialLocationType::currentApplicationFile);
-    File parent_dir = current_app.getParentDirectory();
-    Array<File> firmware_files;
-    parent_dir.findChildFiles(firmware_files, File::TypesOfFileToFind::findFiles, false, "*.bin");
-    if (firmware_files.size() > 0)
-    {
-        firmwareFile = firmware_files[0].getFullPathName();
-    }
-    
-    return hasFirmwareFile();
-}
-
-bool LinnStrumentSerialMac::hasFirmwareFile()
-{
-    return firmwareFile.isNotEmpty();
 }
 
 typedef struct SerialDevice {
@@ -120,6 +104,15 @@ static void MatchUsbDevice(char* pathName, stSerialDevice *serialDevice)
         return;
     }
     
+    CFNumberRef numberRef;
+    numberRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &VENDOR_ID);
+    CFDictionarySetValue(d, CFSTR(kUSBVendorID), numberRef);
+    CFRelease(numberRef);
+    numberRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &PRODUCT_ID);
+    CFDictionarySetValue(d, CFSTR(kUSBProductID), numberRef);
+    CFRelease(numberRef);
+    numberRef = nil;
+    
     io_iterator_t matchingServices;
     if ((e = IOServiceGetMatchingServices(kIOMasterPortDefault, d, &matchingServices)))
     {
@@ -166,7 +159,6 @@ static void MatchUsbDevice(char* pathName, stSerialDevice *serialDevice)
 
     IOObjectRelease(matchingServices);
 }
-
 
 static stDeviceListItem* GetSerialDevices()
 {
@@ -235,8 +227,6 @@ static stDeviceListItem* GetSerialDevices()
 
 bool LinnStrumentSerialMac::detect()
 {
-    if (!hasFirmwareFile()) return false;
-
     linnstrumentDevice = String::empty;
     
     stDeviceListItem* devices = GetSerialDevices();
@@ -249,8 +239,8 @@ bool LinnStrumentSerialMac::detect()
             stSerialDevice device = (* next).value;
 
             // only use serial devices with the vendor and product ID of LinnStrument
-            if (device.vendorId == 0xf055 &&
-                device.productId == 0x0070 &&
+            if (device.vendorId == VENDOR_ID &&
+                device.productId == PRODUCT_ID &&
                 strstr(device.port, "/dev/") == device.port) {
                 linnstrumentDevice = String(device.port);
                 linnstrumentDevice = linnstrumentDevice.substring(5);
@@ -274,126 +264,4 @@ bool LinnStrumentSerialMac::detect()
 bool LinnStrumentSerialMac::isDetected()
 {
     return linnstrumentDevice.isNotEmpty();
-}
-
-bool LinnStrumentSerialMac::prepareDevice()
-{
-    if (!hasFirmwareFile() || !isDetected()) return false;
-
-    int flags = (O_RDWR | O_NOCTTY | O_NONBLOCK | O_CLOEXEC | O_SYNC);
-    int fd = open(getFullLinnStrumentDevice().toRawUTF8(), flags);
-    
-    if (fd == -1) {
-        std::cerr << "Can't find serial device /dev/" << linnstrumentDevice << " (" << errno << ")" << std::endl;
-        return false;
-    }
-
-    struct termios options;
-    if (-1 == tcgetattr(fd, &options)) {
-        std::cerr << "Impossible to get atttributes of serial device /dev/" << linnstrumentDevice << " (" << errno << ")" << std::endl;
-        close(fd);
-        return false;
-    }
-    
-    if (-1 == cfsetispeed(&options, B1200)) {
-        std::cerr << "Impossible to change the input baud rate of serial device /dev/" << linnstrumentDevice << " (" << errno << ")" << std::endl;
-        close(fd);
-        return false;
-    }
-    if (-1 == cfsetospeed(&options, B1200)) {
-        std::cerr << "Impossible to change the output baud rate of serial device /dev/" << linnstrumentDevice << " (" << errno << ")" << std::endl;
-        close(fd);
-        return false;
-    }
-    options.c_cflag &= ~CSIZE;
-    options.c_cflag |= CS8;
-    options.c_cflag &= ~CSTOPB;
-    options.c_cflag &= ~PARENB;
-    
-    if (-1 == tcflush(fd, TCIFLUSH)) {
-        std::cerr << "Unexpected error while flushing serial device /dev/" << linnstrumentDevice << " (" << errno << ")" << std::endl;
-        close(fd);
-        return false;
-    }
-    if (-1 == tcsetattr(fd, TCSANOW, &options)) {
-        std::cerr << "Unexpected error while set attributes of serial device /dev/" << linnstrumentDevice << " (" << errno << ")" << std::endl;
-        close(fd);
-        return false;
-    }
-    close(fd);
-
-    return true;
-}
-
-bool LinnStrumentSerialMac::performUpgrade()
-{
-    if (!hasFirmwareFile() || !isDetected()) return false;
-    
-    upgradeOutput.clear();
-    upgradeVerificationPhase = false;
-    upgradeSuccessful = false;
-    
-    File current_app = File::getSpecialLocation(File::SpecialLocationType::currentApplicationFile);
-    File bossac_tool = current_app.getChildFile("Contents/Resources/bossac");
-    if (bossac_tool.exists())
-    {
-        StringArray args;
-        args.add(bossac_tool.getFullPathName());
-        args.add("-i");
-        args.add("--port="+linnstrumentDevice);
-        args.add("-U");
-        args.add("false");
-        args.add("-e");
-        args.add("-w");
-        args.add("-v");
-        args.add("-R");
-        args.add("-b");
-        args.add(firmwareFile);
-        upgradeChild.start(args);
-        startTimer(1);
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-void LinnStrumentSerialMac::timerCallback()
-{
-    if (!upgradeChild.isRunning())
-    {
-        stopTimer();
-        
-        if (upgradeSuccessful)
-        {
-            ControlApplication::getApp().restoreSettings();
-        }
-        else
-        {
-            ControlApplication::getApp().setUpgradeFailed();
-        }
-    }
-    
-    char buffer;
-    if (upgradeChild.readProcessOutput(&buffer, 1) > 0)
-    {
-        upgradeOutput.append(String::charToString(buffer), 1);
-        if (buffer == '%')
-        {
-            if (upgradeOutput.contains("Verify"))
-            {
-                upgradeVerificationPhase = true;
-            }
-            
-            int index = upgradeOutput.lastIndexOf("] ");
-            String progress = upgradeOutput.substring(index+2);
-            if (upgradeVerificationPhase && progress == "100%")
-            {
-                upgradeSuccessful = true;
-            }
-            ControlApplication::getApp().setProgressText((upgradeVerificationPhase ? "Verifying... " : "Writing... ")+progress);
-            upgradeOutput.clear();
-        }
-    }
 }
