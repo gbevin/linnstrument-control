@@ -1,0 +1,1 @@
+signtool sign /v /ac "C:\Workspace\linnstrument-updater\Builds\VisualStudio2013\GlobalSign Root CA.crt" /f C:\Workspace\linnstrument-updater\Builds\VisualStudio2013\OS201410296310.pfx /p xxxx /tr http://timestamp.globalsign.com/scripts/timestamp.dll /fd sha256 "C:\Workspace\linnstrument-updater\Builds\VisualStudio2013\Release\LinnStrument Control.exe"

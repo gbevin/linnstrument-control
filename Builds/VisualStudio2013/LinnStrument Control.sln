@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2013
+Project("{B9E490C1-9F9B-5EE6-1909-1975386A09C6}") = "LinnStrument Control", "LinnStrument Control.vcxproj", "{D9ED6B46-2648-11F4-2F30-90C94C257AAD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9ED6B46-2648-11F4-2F30-90C94C257AAD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D9ED6B46-2648-11F4-2F30-90C94C257AAD}.Debug|Win32.Build.0 = Debug|Win32
+		{D9ED6B46-2648-11F4-2F30-90C94C257AAD}.Release|Win32.ActiveCfg = Release|Win32
+		{D9ED6B46-2648-11F4-2F30-90C94C257AAD}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

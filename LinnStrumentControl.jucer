@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="ibSWwr" name="LinnStrument Control" projectType="guiapp"
+              version="1.3.4" bundleIdentifier="com.rogerlinndesign.linnstrument.Updater"
+              includeBinaryInAppConfig="1" jucerVersion="3.2.0" companyName="Roger Linn Design"
+              companyWebsite="http://www.rogerlinndesign.com" companyEmail="support@rogerlinndesign.com">
+  <MAINGROUP id="AAWYcK" name="LinnStrument Control">
+    <GROUP id="{081FD492-2698-BE98-7252-D9D20BECB5C7}" name="Source">
+      <FILE id="YN4BdW" name="disphelper.c" compile="1" resource="0" file="Source/disphelper.c"/>
+      <FILE id="fPE2k5" name="disphelper.h" compile="0" resource="0" file="Source/disphelper.h"/>
+      <FILE id="FvWw9I" name="LinnStrumentSerial.h" compile="0" resource="0"
+            file="Source/LinnStrumentSerial.h"/>
+      <FILE id="CLCtHR" name="LinnStrumentSerialMac.cpp" compile="1" resource="0"
+            file="Source/LinnStrumentSerialMac.cpp"/>
+      <FILE id="CLCtHR" name="LinnStrumentSerialMac.h" compile="1" resource="0"
+            file="Source/LinnStrumentSerialMac.h"/>
+      <FILE id="LoU1G8" name="LinnStrumentSerialWindows.cpp" compile="1"
+            resource="0" file="Source/LinnStrumentSerialWindows.cpp"/>
+      <FILE id="Dk84CM" name="LinnStrumentSerialWindows.h" compile="0" resource="0"
+            file="Source/LinnStrumentSerialWindows.h"/>
+      <FILE id="I3gdXz" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="P06HEI" name="MainComponent.cpp" compile="1" resource="0"
+            file="Source/MainComponent.cpp"/>
+      <FILE id="JFBGdV" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
+      <FILE id="IETGnj" name="MainWindow.cpp" compile="1" resource="0" file="Source/MainWindow.cpp"/>
+      <FILE id="qtSEY3" name="MainWindow.h" compile="0" resource="0" file="Source/MainWindow.h"/>
+      <FILE id="riaUP9" name="ControlApplication.cpp" compile="1" resource="0"
+            file="Source/ControlApplication.cpp"/>
+      <FILE id="mTh9n7" name="ControlApplication.h" compile="0" resource="0"
+            file="Source/ControlApplication.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="1" optimisation="1" targetName="LinnStrument Control"/>
+        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="0" optimisation="2" targetName="LinnStrument Control"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../juce/modules"/>
+        <MODULEPATH id="juce_events" path="../juce/modules"/>
+        <MODULEPATH id="juce_graphics" path="../juce/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../juce/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../juce/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../juce/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+    <VS2013 targetFolder="Builds/VisualStudio2013">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="LinnStrument Control"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="2" targetName="LinnStrument Control"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_extra" path="../juce/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../juce/modules"/>
+        <MODULEPATH id="juce_graphics" path="../juce/modules"/>
+        <MODULEPATH id="juce_events" path="../juce/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../juce/modules"/>
+        <MODULEPATH id="juce_core" path="../juce/modules"/>
+      </MODULEPATHS>
+    </VS2013>
+    <LINUX_MAKE targetFolder="Builds/Linux">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
+                       targetName="LinnStrumentControl"/>
+        <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="2"
+                       targetName="LinnStrumentControl"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_extra" path="../juce/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../juce/modules"/>
+        <MODULEPATH id="juce_graphics" path="../juce/modules"/>
+        <MODULEPATH id="juce_events" path="../juce/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../juce/modules"/>
+        <MODULEPATH id="juce_core" path="../juce/modules"/>
+      </MODULEPATHS>
+    </LINUX_MAKE>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULES id="juce_core" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_events" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
+  </MODULES>
+  <JUCEOPTIONS/>
+</JUCERPROJECT>
