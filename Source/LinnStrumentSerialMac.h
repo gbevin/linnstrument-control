@@ -14,7 +14,7 @@
 
 #include "LinnStrumentSerial.h"
 
-class LinnStrumentSerialMac : public LinnStrumentSerial{
+class LinnStrumentSerialMac : public LinnStrumentSerial {
 public:
     LinnStrumentSerialMac();
     virtual ~LinnStrumentSerialMac();
@@ -24,7 +24,6 @@ public:
     bool isDetected() override;
     
 private:
-    String firmwareFile;
     String linnstrumentDevice;
 };
 

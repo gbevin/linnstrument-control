@@ -12,21 +12,43 @@
 
 #include "JuceHeader.h"
 
-class LinnStrumentSerial
+#include "serial/serial.h"
+#include "NativeSystemEvents.h"
+
+enum CommunicationState
+{
+    NotDetected,
+    SerialWaitingForRestart,
+    SerialOpened,
+    ControlModeInitiated,
+    ControlModeActive
+};
+
+class LinnStrumentSerial: public Timer
 {
 public:
-    LinnStrumentSerial() {};
-    virtual ~LinnStrumentSerial() {};
+    LinnStrumentSerial();
+    virtual ~LinnStrumentSerial();
+
+    void timerCallback() override;
 
     virtual String getFullLinnStrumentDevice() = 0;
     virtual bool detect() = 0;
     virtual bool isDetected() = 0;
     
-    bool readSettings();
-    bool restoreSettings();
-    
 private:
-	MemoryBlock settings;
+    void initializeMapping();
+    void ensureClosedLinnSerial();
+    bool initiateControlMode();
+    void handleSerialData();
+    
+    ScopedPointer<serial::Serial> linnSerial;
+    int64 lastDeviceDetect;
+    int64 serialOpenMoment;
+    CommunicationState state;
+    linncontrol::NativeSystemEvents systemEvents;
+    linncontrol::LCModifiers currentModifiers;
+    unsigned int keyMapping[208];
 };
 
 #endif  // LINNSTRUMENTSERIAL_H_INCLUDED

@@ -85,7 +85,7 @@ void ControlApplication::handleMessage(const juce::Message &message)
     {
         case ApplicationMessageType::detectLinnStrument:
         {
-            if (linnStrumentSerial->detect())
+            if (linnStrumentSerial->isDetected())
             {
                 ((MainComponent *)mainWindow->getContentComponent())->setLabelText("Found LinnStrument.", true);
             }
@@ -93,7 +93,7 @@ void ControlApplication::handleMessage(const juce::Message &message)
             {
                 ((MainComponent *)mainWindow->getContentComponent())->setLabelText("No LinnStrument found!\nPlease make sure Update OS mode is selected in Global Settings.", false);
             }
-            startTimer(500);
+            startTimer(2000);
             break;
         }
     }

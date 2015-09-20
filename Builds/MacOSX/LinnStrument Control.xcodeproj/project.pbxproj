@@ -19,6 +19,8 @@
 		26D60BB21A2AFCB700E232C3 /* unix.cc in Sources */ = {isa = PBXBuildFile; fileRef = 26D60BA61A2AFCB700E232C3 /* unix.cc */; };
 		26D60BB31A2AFCB700E232C3 /* win.cc in Sources */ = {isa = PBXBuildFile; fileRef = 26D60BA71A2AFCB700E232C3 /* win.cc */; };
 		26D60BB41A2AFCB700E232C3 /* serial.cc in Sources */ = {isa = PBXBuildFile; fileRef = 26D60BAE1A2AFCB700E232C3 /* serial.cc */; };
+		26F7D1531BAEC90C00CC7CB9 /* NativeSystemEventsMac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 26F7D1501BAEC90C00CC7CB9 /* NativeSystemEventsMac.mm */; settings = {ASSET_TAGS = (); }; };
+		26F7D1561BAEC96000CC7CB9 /* Modifiers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26F7D1541BAEC96000CC7CB9 /* Modifiers.cpp */; settings = {ASSET_TAGS = (); }; };
 		2DF771D942DA9214AC58F46E /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5A9A539B66F547DB60A93A6 /* IOKit.framework */; };
 		2FF2264371F9F1A218223750 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3372F8BFC9389E939B3843 /* WebKit.framework */; };
 		380202CC3D0F06037C86450C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8C47B97A3007B5B2FCC49F7 /* Cocoa.framework */; };
@@ -153,6 +155,13 @@
 		26D60BAC1A2AFCB700E232C3 /* serial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = serial.h; sourceTree = "<group>"; };
 		26D60BAD1A2AFCB700E232C3 /* v8stdint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = v8stdint.h; sourceTree = "<group>"; };
 		26D60BAE1A2AFCB700E232C3 /* serial.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = serial.cc; path = ../../Serial/serial.cc; sourceTree = "<group>"; };
+		26F7D14E1BAEC90C00CC7CB9 /* MediaKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaKeys.h; path = ../../Source/MediaKeys.h; sourceTree = "<group>"; };
+		26F7D14F1BAEC90C00CC7CB9 /* NativeSystemEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NativeSystemEvents.h; path = ../../Source/NativeSystemEvents.h; sourceTree = "<group>"; };
+		26F7D1501BAEC90C00CC7CB9 /* NativeSystemEventsMac.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = NativeSystemEventsMac.mm; path = ../../Source/NativeSystemEventsMac.mm; sourceTree = "<group>"; };
+		26F7D1511BAEC90C00CC7CB9 /* OtherActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OtherActions.h; path = ../../Source/OtherActions.h; sourceTree = "<group>"; };
+		26F7D1521BAEC90C00CC7CB9 /* SystemCommands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SystemCommands.h; path = ../../Source/SystemCommands.h; sourceTree = "<group>"; };
+		26F7D1541BAEC96000CC7CB9 /* Modifiers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Modifiers.cpp; path = ../../Source/Modifiers.cpp; sourceTree = "<group>"; };
+		26F7D1551BAEC96000CC7CB9 /* Modifiers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Modifiers.h; path = ../../Source/Modifiers.h; sourceTree = "<group>"; };
 		27BB65207F89455218EC6D82 /* juce_TreeView.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_TreeView.cpp; path = ../../JuceLibraryCode/modules/juce_gui_basics/widgets/juce_TreeView.cpp; sourceTree = SOURCE_ROOT; };
 		2809B9A9FF7F07EC8D9DFAE6 /* MainComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MainComponent.cpp; path = ../../Source/MainComponent.cpp; sourceTree = SOURCE_ROOT; };
 		28A772FD2120905606C38307 /* juce_DropShadower.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_DropShadower.h; path = ../../JuceLibraryCode/modules/juce_gui_basics/misc/juce_DropShadower.h; sourceTree = SOURCE_ROOT; };
@@ -1196,6 +1205,13 @@
 				2809B9A9FF7F07EC8D9DFAE6 /* MainComponent.cpp */,
 				D779135632491F28D5CB47C9 /* MainComponent.h */,
 				9FFEDCB2F5367D47801E4BC8 /* Main.cpp */,
+				26F7D1541BAEC96000CC7CB9 /* Modifiers.cpp */,
+				26F7D1551BAEC96000CC7CB9 /* Modifiers.h */,
+				26F7D14E1BAEC90C00CC7CB9 /* MediaKeys.h */,
+				26F7D14F1BAEC90C00CC7CB9 /* NativeSystemEvents.h */,
+				26F7D1501BAEC90C00CC7CB9 /* NativeSystemEventsMac.mm */,
+				26F7D1511BAEC90C00CC7CB9 /* OtherActions.h */,
+				26F7D1521BAEC90C00CC7CB9 /* SystemCommands.h */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -2057,6 +2073,7 @@
 				5F353A6A2D7F99950ECBF656 /* LinnStrumentSerialMac.cpp in Sources */,
 				F9D6661BF8E05E14085A1C37 /* MainComponent.cpp in Sources */,
 				159BC7EEC80463CFDE443A8E /* Main.cpp in Sources */,
+				26F7D1561BAEC96000CC7CB9 /* Modifiers.cpp in Sources */,
 				26D60BB01A2AFCB700E232C3 /* list_ports_osx.cc in Sources */,
 				26D60BB21A2AFCB700E232C3 /* unix.cc in Sources */,
 				5B5D284C8EF7917BFA1F50FE /* juce_core.mm in Sources */,
@@ -2068,6 +2085,7 @@
 				CF2CF678B0A71FAC697663DD /* juce_graphics.mm in Sources */,
 				26D60BAF1A2AFCB700E232C3 /* list_ports_linux.cc in Sources */,
 				26D60BB11A2AFCB700E232C3 /* list_ports_win.cc in Sources */,
+				26F7D1531BAEC90C00CC7CB9 /* NativeSystemEventsMac.mm in Sources */,
 				414E0FCA168BDA0475CFA5AA /* juce_gui_basics.mm in Sources */,
 				2617D1831BAD8A2E007CC890 /* ControlApplication.cpp in Sources */,
 				15287CD9373722365686A57E /* juce_gui_extra.mm in Sources */,
@@ -2117,8 +2135,8 @@
 					"_DEBUG=1",
 					"DEBUG=1",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=1.3.4",
-					"JUCE_APP_VERSION_HEX=0x10304",
+					"JUCE_APP_VERSION=1.0.0",
+					"JUCE_APP_VERSION_HEX=0x10000",
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
@@ -2152,8 +2170,8 @@
 					"_NDEBUG=1",
 					"NDEBUG=1",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=1.3.4",
-					"JUCE_APP_VERSION_HEX=0x10304",
+					"JUCE_APP_VERSION=1.0.0",
+					"JUCE_APP_VERSION_HEX=0x10000",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
