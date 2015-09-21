@@ -186,7 +186,7 @@ void LinnStrumentSerial::ensureClosedLinnSerial() {
 
 void LinnStrumentSerial::timerCallback() {
     try {
-        if (state != SerialWaitingForRestart && (Time::currentTimeMillis() - lastDeviceDetect > 250)) {
+        if (state != SerialWaitingForRestart && (Time::currentTimeMillis() - lastDeviceDetect > 200)) {
             lastDeviceDetect = Time::currentTimeMillis();
             if (detect()) {
                 if (!linnSerial.get()) {
@@ -203,7 +203,7 @@ void LinnStrumentSerial::timerCallback() {
         }
         
         if (state == SerialWaitingForRestart) {
-            if (Time::currentTimeMillis() - serialOpenMoment > 1500) {
+            if (Time::currentTimeMillis() - serialOpenMoment > 600) {
                 initializeMapping();
                 state = SerialOpened;
             }
@@ -271,66 +271,65 @@ void LinnStrumentSerial::handleSerialData()
     if (!linnSerial->isOpen()) return;
     
     try {
-        if (!linnSerial->available()) {
-            return;
-        }
-        int size = linnSerial->read(data, 4);
-        if (size <= 0) {
-            return;
-        }
-        
-        if (state == ControlModeInitiated) {
-            if (data[0] == 'A' && data[1] == 'C' && data[2] == 'K' && data[3] == '\n') {
-                std::cout << "Control mode activated" << std::endl;
-                state = ControlModeActive;
+        while (linnSerial->available()) {
+            int size = linnSerial->read(data, 4);
+            if (size <= 0) {
+                return;
             }
-        }
-        else if (state == ControlModeActive) {
-            if (data[3] == '\n') {
-                int key = data[1] + data[2]*26;
-                
-                if (keyMapping[key] != UINT16_MAX) {
-                    unsigned int code = keyMapping[key];
-                    
-                    switch (data[0]) {
-                        case 1:
-                            if (code == kVK_Shift) {
-                                currentModifiers = currentModifiers.withFlags(linncontrol::LCModifiers::shiftModifier);
-                            }
-                            else if (code == kVK_Control) {
-                                currentModifiers = currentModifiers.withFlags(linncontrol::LCModifiers::ctrlModifier);
-                            }
-                            else if (code == kVK_Option) {
-                                currentModifiers = currentModifiers.withFlags(linncontrol::LCModifiers::altModifier);
-                            }
-                            else if (code == kVK_Command) {
-                                currentModifiers = currentModifiers.withFlags(linncontrol::LCModifiers::windowsModifier);
-                            }
-                            
-                            systemEvents.keyDown(code, currentModifiers);
-                            
-                            break;
-                        case 0:
-                            if (code == kVK_Shift) {
-                                currentModifiers = currentModifiers.withoutFlags(linncontrol::LCModifiers::shiftModifier);
-                            }
-                            else if (code == kVK_Control) {
-                                currentModifiers = currentModifiers.withoutFlags(linncontrol::LCModifiers::ctrlModifier);
-                            }
-                            else if (code == kVK_Option) {
-                                currentModifiers = currentModifiers.withoutFlags(linncontrol::LCModifiers::altModifier);
-                            }
-                            else if (code == kVK_Command) {
-                                currentModifiers = currentModifiers.withoutFlags(linncontrol::LCModifiers::windowsModifier);
-                            }
-
-                            systemEvents.keyUp(code, currentModifiers);
-
-                            break;
-                    }
+            
+            if (state == ControlModeInitiated) {
+                if (data[0] == 'A' && data[1] == 'C' && data[2] == 'K' && data[3] == '\n') {
+                    std::cout << "Control mode activated" << std::endl;
+                    state = ControlModeActive;
                 }
-                else {
-                    std::cout << (int)key << std::endl;
+            }
+            else if (state == ControlModeActive) {
+                if ((data[0] == 0 || data[0] == 1) && data[3] == '\n') {
+                    int key = data[1] + data[2]*26;
+                    
+                    if (keyMapping[key] != UINT16_MAX) {
+                        unsigned int code = keyMapping[key];
+                        
+                        switch (data[0]) {
+                            case 1:
+                                if (code == kVK_Shift) {
+                                    currentModifiers = currentModifiers.withFlags(linncontrol::LCModifiers::shiftModifier);
+                                }
+                                else if (code == kVK_Control) {
+                                    currentModifiers = currentModifiers.withFlags(linncontrol::LCModifiers::ctrlModifier);
+                                }
+                                else if (code == kVK_Option) {
+                                    currentModifiers = currentModifiers.withFlags(linncontrol::LCModifiers::altModifier);
+                                }
+                                else if (code == kVK_Command) {
+                                    currentModifiers = currentModifiers.withFlags(linncontrol::LCModifiers::windowsModifier);
+                                }
+                                
+                                systemEvents.keyDown(code, currentModifiers);
+                                
+                                break;
+                            case 0:
+                                if (code == kVK_Shift) {
+                                    currentModifiers = currentModifiers.withoutFlags(linncontrol::LCModifiers::shiftModifier);
+                                }
+                                else if (code == kVK_Control) {
+                                    currentModifiers = currentModifiers.withoutFlags(linncontrol::LCModifiers::ctrlModifier);
+                                }
+                                else if (code == kVK_Option) {
+                                    currentModifiers = currentModifiers.withoutFlags(linncontrol::LCModifiers::altModifier);
+                                }
+                                else if (code == kVK_Command) {
+                                    currentModifiers = currentModifiers.withoutFlags(linncontrol::LCModifiers::windowsModifier);
+                                }
+
+                                systemEvents.keyUp(code, currentModifiers);
+
+                                break;
+                        }
+                    }
+                    else {
+                        std::cout << (int)key << std::endl;
+                    }
                 }
             }
         }
