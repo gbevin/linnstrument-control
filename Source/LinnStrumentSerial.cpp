@@ -287,6 +287,8 @@ void LinnStrumentSerial::handleSerialData()
                 if ((data[0] == 0 || data[0] == 1) && data[3] == '\n') {
                     int key = data[1] + data[2]*26;
                     
+                    std::cout << (int)data[0] << " " << (int)data[1] << " " << (int)data[2] << " : " << (int)key << std::endl;
+
                     if (keyMapping[key] != UINT16_MAX) {
                         unsigned int code = keyMapping[key];
                         
@@ -326,9 +328,6 @@ void LinnStrumentSerial::handleSerialData()
 
                                 break;
                         }
-                    }
-                    else {
-                        std::cout << (int)key << std::endl;
                     }
                 }
             }
