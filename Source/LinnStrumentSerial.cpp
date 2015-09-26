@@ -262,10 +262,19 @@ bool LinnStrumentSerial::initiateControlMode() {
     return true;
 }
 
+void LinnStrumentSerial::lightLed(uint8_t col, uint8_t row, LedColor color) {
+    static uint8_t led[4];
+    led[0] = 'l';
+    led[1] = col;
+    led[2] = row;
+    led[3] = color;
+    linnSerial->write(led, 4);
+}
+
 void LinnStrumentSerial::handleSerialData()
 {
     static uint8_t data[4];
-                     
+    
     if (!isDetected()) return;
     if (!linnSerial.get()) return;
     if (!linnSerial->isOpen()) return;
@@ -278,7 +287,75 @@ void LinnStrumentSerial::handleSerialData()
             }
             
             if (state == ControlModeInitiated) {
-                if (data[0] == 'A' && data[1] == 'C' && data[2] == 'K' && data[3] == '\n') {
+                if (strcmp((char *)data, "ACK\n") == 0) {
+                    LedColor colorAscii = ColorGreen;
+                    LedColor colorModifiers = ColorCyan;
+                    LedColor colorSpacing = ColorYellow;
+
+                    lightLed(7, 5, colorModifiers);
+                    lightLed(13, 5, colorSpacing);
+
+                    lightLed(8, 4, colorAscii);
+                    lightLed(9, 4, colorAscii);
+                    lightLed(10, 4, colorAscii);
+                    lightLed(11, 4, colorAscii);
+                    lightLed(12, 4, colorAscii);
+                    lightLed(14, 4, colorAscii);
+                    lightLed(15, 4, colorAscii);
+                    lightLed(16, 4, colorAscii);
+                    lightLed(17, 4, colorAscii);
+                    lightLed(18, 4, colorAscii);
+
+                    lightLed(7, 3, colorSpacing);
+                    lightLed(8, 3, colorAscii);
+                    lightLed(9, 3, colorAscii);
+                    lightLed(10, 3, colorAscii);
+                    lightLed(11, 3, colorAscii);
+                    lightLed(12, 3, colorAscii);
+                    lightLed(14, 3, colorAscii);
+                    lightLed(15, 3, colorAscii);
+                    lightLed(16, 3, colorAscii);
+                    lightLed(17, 3, colorAscii);
+                    lightLed(18, 3, colorAscii);
+
+                    lightLed(7, 2, colorModifiers);
+                    lightLed(8, 2, colorAscii);
+                    lightLed(9, 2, colorAscii);
+                    lightLed(10, 2, colorAscii);
+                    lightLed(11, 2, colorAscii);
+                    lightLed(12, 2, colorAscii);
+                    lightLed(13, 2, colorSpacing);
+                    lightLed(14, 2, colorAscii);
+                    lightLed(15, 2, colorAscii);
+                    lightLed(16, 2, colorAscii);
+                    lightLed(17, 2, colorAscii);
+                    lightLed(20, 2, colorModifiers);
+
+                    lightLed(7, 1, colorModifiers);
+                    lightLed(8, 1, colorAscii);
+                    lightLed(9, 1, colorAscii);
+                    lightLed(10, 1, colorAscii);
+                    lightLed(11, 1, colorAscii);
+                    lightLed(12, 1, colorAscii);
+                    lightLed(13, 1, colorSpacing);
+                    lightLed(14, 1, colorAscii);
+                    lightLed(15, 1, colorAscii);
+                    lightLed(20, 1, colorModifiers);
+                    lightLed(22, 1, colorSpacing);
+
+                    lightLed(8, 0, colorModifiers);
+                    lightLed(9, 0, colorModifiers);
+                    lightLed(11, 0, colorSpacing);
+                    lightLed(12, 0, colorSpacing);
+                    lightLed(13, 0, colorSpacing);
+                    lightLed(14, 0, colorSpacing);
+                    lightLed(15, 0, colorSpacing);
+                    lightLed(17, 0, colorModifiers);
+                    lightLed(18, 0, colorModifiers);
+                    lightLed(21, 0, colorSpacing);
+                    lightLed(22, 0, colorSpacing);
+                    lightLed(23, 0, colorSpacing);
+                    
                     std::cout << "Control mode activated" << std::endl;
                     state = ControlModeActive;
                 }

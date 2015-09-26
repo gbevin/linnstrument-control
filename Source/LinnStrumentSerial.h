@@ -24,6 +24,18 @@ enum CommunicationState
     ControlModeActive
 };
 
+enum LedColor
+{
+    ColorOff = 0,
+    ColorRed = 1,
+    ColorYellow = 2,
+    ColorGreen = 3,
+    ColorCyan = 4,
+    ColorBlue = 5,
+    ColorMagenta = 6,
+    ColorBlack = 7
+};
+
 class LinnStrumentSerial: public Timer
 {
 public:
@@ -41,6 +53,7 @@ private:
     void ensureClosedLinnSerial();
     bool initiateControlMode();
     void handleSerialData();
+    void lightLed(uint8_t col, uint8_t row, LedColor color);
     
     ScopedPointer<serial::Serial> linnSerial;
     int64 lastDeviceDetect;
