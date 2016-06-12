@@ -1,4 +1,4 @@
-#include "Modifiers.h"
+#include "LCModifiers.h"
 
 using namespace linncontrol;
 

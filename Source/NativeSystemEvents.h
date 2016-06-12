@@ -3,7 +3,7 @@
 
 #include "MediaKeys.h"
 #include "SystemCommands.h"
-#include "Modifiers.h"
+#include "LCModifiers.h"
 
 namespace linncontrol
 {
