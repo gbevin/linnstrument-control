@@ -140,15 +140,15 @@ static void MatchUsbDevice(char* pathName, stSerialDevice *serialDevice)
         UInt32 locationID;
         (*deviceInterface)->GetLocationID(deviceInterface, &locationID);
         char locationIdHex[255];
-        snprintf(locationIdHex, 254, "%x", locationID);
+        snprintf(locationIdHex, 254, "%X", locationID);
         
         String locationIdString(locationIdHex);
         locationIdString = locationIdString.trimCharactersAtStart("0");
         locationIdString = locationIdString.trimCharactersAtEnd("0");
         String deviceName = "cu.usbmodem"+locationIdString+"1";
         String devicePath = "/dev/"+deviceName;
-        File deviceFile(devicePath);
-        if (deviceFile.exists() && devicePath == pathName)
+        File deviceFile(pathName);
+        if (devicePath.equalsIgnoreCase(pathName) && deviceFile.exists())
         {
             ExtractUsbInformation(serialDevice, deviceInterface);
             (*deviceInterface)->Release(deviceInterface);
