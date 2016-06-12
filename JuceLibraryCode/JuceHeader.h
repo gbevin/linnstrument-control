@@ -31,8 +31,8 @@
 namespace ProjectInfo
 {
     const char* const  projectName    = "LinnStrument Control";
-    const char* const  versionString  = "1.0.0";
-    const int          versionNumber  = 0x10000;
+    const char* const  versionString  = "0.9.0";
+    const int          versionNumber  = 0x000900;
 }
 #endif
 

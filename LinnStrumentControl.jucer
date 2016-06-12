@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="ibSWwr" name="LinnStrument Control" projectType="guiapp"
-              version="1.0.0" bundleIdentifier="com.rogerlinndesign.linnstrument.Updater"
-              includeBinaryInAppConfig="1" jucerVersion="3.2.0" companyName="Roger Linn Design"
-              companyWebsite="http://www.rogerlinndesign.com" companyEmail="support@rogerlinndesign.com">
+              version="0.9.0" bundleIdentifier="com.uwyn.linnstrument.Control"
+              includeBinaryInAppConfig="1" jucerVersion="3.2.0" companyName="Uwyn"
+              companyWebsite="http://www.uwyn.com" companyEmail="info@uwyn.com">
   <MAINGROUP id="AAWYcK" name="LinnStrument Control">
     <GROUP id="{081FD492-2698-BE98-7252-D9D20BECB5C7}" name="Source">
       <FILE id="YN4BdW" name="disphelper.c" compile="1" resource="0" file="Source/disphelper.c"/>
