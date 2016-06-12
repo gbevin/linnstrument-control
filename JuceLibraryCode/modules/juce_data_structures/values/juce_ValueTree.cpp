@@ -958,22 +958,26 @@ XmlElement* ValueTree::createXml() const
 
 ValueTree ValueTree::fromXml (const XmlElement& xml)
 {
+    if (! xml.isTextElement())
+    {
+        ValueTree v (xml.getTagName());
+        v.object->properties.setFromXmlAttributes (xml);
+
+        forEachXmlChildElement (xml, e)
+            v.addChild (fromXml (*e), -1, nullptr);
+
+        return v;
+    }
+
     // ValueTrees don't have any equivalent to XML text elements!
-    jassert (! xml.isTextElement());
-
-    ValueTree v (xml.getTagName());
-    v.object->properties.setFromXmlAttributes (xml);
-
-    forEachXmlChildElement (xml, e)
-        v.addChild (fromXml (*e), -1, nullptr);
-
-    return v;
+    jassertfalse;
+    return ValueTree();
 }
 
 String ValueTree::toXmlString() const
 {
     const ScopedPointer<XmlElement> xml (createXml());
-    return xml != nullptr ? xml->createDocument ("") : String();
+    return xml != nullptr ? xml->createDocument (StringRef()) : String();
 }
 
 //==============================================================================
@@ -1062,7 +1066,12 @@ public:
         for (int i = 1 + r.nextInt (numElementsInArray (buffer) - 2); --i >= 0;)
             buffer[i] = chars [r.nextInt (sizeof (chars) - 1)];
 
-        return CharPointer_ASCII (buffer);
+        String result (buffer);
+
+        if (! XmlElement::isValidXmlName (result))
+            result = createRandomIdentifier (r);
+
+        return result;
     }
 
     static String createRandomWideCharString (Random& r)
